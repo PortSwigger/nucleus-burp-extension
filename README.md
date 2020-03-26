@@ -16,10 +16,10 @@ To use this plugin, you will need to have a Nucleus instance. Request a free tri
 
  Note: The project drop down list should populate with all the projects in your Nucleus instance.
 
-5. Select the Scan URLs to upload.
+5. Select the Scan URLs to include.
 
-6. Press "Push All Scan Issues to Nucleus"
+6. Press "Upload Issues"
 
- Note: The selected scan URLs will now be uploaded to Nucleus.
+ Note: The selected scan URLs issues will now be uploaded to Nucleus.
 
 
