@@ -16,6 +16,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class NucleusApi {
@@ -30,7 +31,7 @@ public class NucleusApi {
         this.prefs = prefs;
     }
         
-    public void uploadScanFile(File scanFile, String scanFileName) throws IOException {
+    public void uploadScanFile(File scanFile, String scanFileName) throws IOException, NullPointerException {
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("scan_description", "Uploaded via Nucleus Burp Extension")
@@ -44,10 +45,11 @@ public class NucleusApi {
         Response response = client.newCall(request).execute();
         if(response.code() != 200) {
             JOptionPane.showMessageDialog(mainView, "An error has occured uploading the scan. Error code: " + response.code(), "Error has occured", JOptionPane.ERROR_MESSAGE);
+            mainView.setProgressBar(0);
         } else mainView.setProgressBar(90);
     }
     
-    public HashMap<String, String> getProjects() throws IOException {
+    public HashMap<String, String> getProjects() throws IOException, JSONException {
         HashMap<String, String> projects = new HashMap<>();
         Request request = new Request.Builder()
                 .url(mainView.getInstanceUrl() + "nucleus/api/projects")
