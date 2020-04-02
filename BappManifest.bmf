@@ -1,0 +1,12 @@
+Uuid: 885a8f3d6d6c44889c79e6fd395a971e
+ExtensionType: 1
+Name: Nucleus Burp Extension
+RepoName: nucleus-burp-extension
+ScreenVersion: 1.0
+SerialVersion: 4
+MinPlatformVersion: 0
+ProOnly: True
+Author: Eredis Gutierrez
+ShortDescription: Allows Burp Suite scans to be pushed to the Nucleus platform
+EntryPoint: target/Nucleus-Burp-Extension-1.0.jar
+BuildCommand: mvn package -DskipTests=true -Dmaven.javadoc.skip=true -B
