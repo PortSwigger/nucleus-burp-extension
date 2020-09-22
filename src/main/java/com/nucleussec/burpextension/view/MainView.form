@@ -141,7 +141,12 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtNucleusInstanceURL">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
+              </Properties>
               <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtNucleusInstanceURLFocusGained"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtNucleusInstanceURLFocusLost"/>
                 <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNucleusInstanceURLKeyReleased"/>
               </Events>
             </Component>

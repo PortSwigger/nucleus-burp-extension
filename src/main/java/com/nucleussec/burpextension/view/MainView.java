@@ -9,11 +9,14 @@ import burp.IHttpRequestResponse;
 import burp.IScanIssue;
 import com.nucleussec.burpextension.controllers.NucleusApi;
 import com.nucleussec.burpextension.utils.GlobalUtils;
+import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -144,7 +147,8 @@ public class MainView extends javax.swing.JPanel {
     
     private void pushToNucleus() {
         long currentTime = System.currentTimeMillis();
-        String fileName = System.getenv("USERPROFILE")+"\\AppData\\Local\\Temp\\nucleusBurpExtension-" + currentTime + ".xml";
+        String osTempDir = System.getProperty("java.io.tmpdir");
+        String fileName = osTempDir + File.separator + "nucleusBurpExtension-" + currentTime + ".xml";
         File file = new File(fileName);
         setProgressBar(15);
         thread = new Thread(new Runnable() {
@@ -156,11 +160,11 @@ public class MainView extends javax.swing.JPanel {
                 checkIfFileIsWritten(GlobalUtils.isCompletelyWritten(file));
                 
                 zipFile(file);
-                String zipFileName = System.getenv("USERPROFILE")+"\\AppData\\Local\\Temp\\" + file.getName() + ".zip";
+                String zipFileName = osTempDir + File.separator + file.getName() + ".zip";
                 File zipFile = new File(zipFileName);
                 
                 checkIfFileIsWritten(GlobalUtils.isCompletelyWritten(zipFile));
-        
+                
                 try {
                     nucleusApi.uploadScanFile(zipFile, zipFile.getName());
                     jProgressBar.setValue(100);
@@ -231,6 +235,15 @@ public class MainView extends javax.swing.JPanel {
 
         jLabel5.setText("Nucleus Instance URL:");
 
+        txtNucleusInstanceURL.setToolTipText("");
+        txtNucleusInstanceURL.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtNucleusInstanceURLFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNucleusInstanceURLFocusLost(evt);
+            }
+        });
         txtNucleusInstanceURL.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtNucleusInstanceURLKeyReleased(evt);
@@ -394,6 +407,20 @@ public class MainView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Some fields appear to be empty or not selected. Please fill in or select these fields and try again.", "Error has occured", JOptionPane.ERROR_MESSAGE);
         } else pushToNucleus();
     }//GEN-LAST:event_btnPushToNucleusActionPerformed
+
+    private void txtNucleusInstanceURLFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNucleusInstanceURLFocusGained
+        if(prefs.get("instance_url", "").isEmpty()){
+            txtNucleusInstanceURL.setText("");
+            txtNucleusInstanceURL.setForeground(new Color(50, 50, 50));
+        }
+    }//GEN-LAST:event_txtNucleusInstanceURLFocusGained
+
+    private void txtNucleusInstanceURLFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNucleusInstanceURLFocusLost
+        if(prefs.get("instance_url", "").isEmpty()){
+            txtNucleusInstanceURL.setText("https://<instance_name>.nucleussec.com/");
+            txtNucleusInstanceURL.setForeground(new Color(150, 150, 150));
+        }
+    }//GEN-LAST:event_txtNucleusInstanceURLFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
