@@ -114,7 +114,9 @@ public class MainView extends javax.swing.JPanel {
     
     private void zipFile(File file) {
         try {
-            FileOutputStream fos = new FileOutputStream(System.getenv("USERPROFILE")+"\\AppData\\Local\\Temp\\" + file.getName()+".zip");
+            String osTempDir = System.getProperty("java.io.tmpdir");
+            String fileName = osTempDir + File.separator + file.getName() + ".zip";
+            FileOutputStream fos = new FileOutputStream(fileName);
             ZipOutputStream zipOut = new ZipOutputStream(fos);
             FileInputStream fis = new FileInputStream(file);
             ZipEntry zipEntry = new ZipEntry(file.getName());
